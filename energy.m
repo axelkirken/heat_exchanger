@@ -20,8 +20,8 @@ function [Q1,T_pb, T_lbe, material] = energy(sealer_outer,flow_pb, L, tube_inner
     %Liquid parameters
     density_pb = 10600; %Förenkling (temp- och tryckberoende)
     density_lbe = 10400; %Förenkling (temp- och tryckberoende)
-    c_pb=128;
-    c_lbe=146.5; 
+    c_pb=129;
+    c_lbe=144; 
     k_pb = 17; %Thermal conductivity
     k_lbe = 12.7;
     velocity_pb = flow_pb/(density_pb*sealer_area);
