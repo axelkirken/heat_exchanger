@@ -1,6 +1,6 @@
 %sealer_outer, flow_pb, L, tube_inner, tube_thick, n
 %% Temperaturprofiler (för olika flow)
-clear
+clear, clc
 [Q, T_pb, T_lbe] = energy(0.5, 175, 2, 0.01, 0.001, 1);
 [Q2, T_pb2, T_lbe2] = energy(0.5, 50, 2, 0.01, 0.001, 1);
 n=100;

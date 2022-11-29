@@ -1,4 +1,4 @@
-function [Q,T_pb, T_lbe, material] = energy(sealer_outer,flow_pb, L, tube_inner, tube_thick, n)
+function [Q1,T_pb, T_lbe, material] = energy(sealer_outer,flow_pb, L, tube_inner, tube_thick, n)
     %INPUT PARAMETERS: Sealer outer radius (m), Mass flow for Sealer (kg/s),
     %tube length (m), tube inner radius (m), tube thickness (m), percentage
     %of sealer surface covered by tubes.
@@ -75,11 +75,15 @@ function [Q,T_pb, T_lbe, material] = energy(sealer_outer,flow_pb, L, tube_inner,
         end
     end
     
-    Q = c_pb*flow_pb*(T_pb(1)-T_pb(end));               %Heat
-    material = pi*(tube_outer^2-tube_inner^2)*L*N;      %Volume of material
+
+
+    rho_hot = 10981.7-1.1369*520;
+    rho_cold = 10981.7-1.1369*T_lbe(end);
+    pressure_drop = 9.82*rho_cold*L;
+    material = pi*(tube_outer^2-tube_inner^2)*L*N;
     
-    rho_hot = 10981.7-1.1369*(T_lbe(1)+273);
+    rho_hot = 10981.7-1.1369*(520+273);
     rho_cold = 10981.7-1.1369*(T_lbe(end)+273);
-    P = 9.82*50*(rho_cold-rho_hot);                     %Pressure drop
+    P = 9.82*20*(rho_cold-rho_hot); %Pressure drop
 end
 
