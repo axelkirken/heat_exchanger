@@ -18,27 +18,28 @@ function [Q1,T_pb, T_lbe, material] = energy(sealer_outer,flow_pb, L, tube_inner
     N=floor(n*Nmax);                                                              
 
     %Liquid parameters
-    density_pb = 11342; %Förenkling (temp- och tryckberoende)
-    density_lbe = 10440; %Förenkling (temp- och tryckberoende)
+    density_pb = 10600; %Förenkling (temp- och tryckberoende)
+    density_lbe = 10400; %Förenkling (temp- och tryckberoende)
     c_pb=128;
     c_lbe=146.5; 
-    k = 35; %Thermal conductivity
+    k_pb = 17; %Thermal conductivity
+    k_lbe = 12.7;
     velocity_pb = flow_pb/(density_pb*sealer_area);
     flow_lbe = c_pb*flow_pb*(sealer_temp-sealer_temp_min)/(c_lbe*(tube_max-tube_inlet_temp));
     velocity_lbe = flow_lbe/(density_lbe*N*tube_area);
 
     %Heat transfer coefficients
-    alfa_pb = k/(density_pb*c_pb);
+    alfa_pb = k_pb/(density_pb*c_pb);
     Pe_pb = tube_inner*2*velocity_pb/alfa_pb;
     %Nu = 4.003 + 0.228*Pe^0.67;
     Nu_pb = 6 + 0.006*Pe_pb;
-    h_pb = k*Nu_pb/(tube_inner*2); 
+    h_pb = k_pb*Nu_pb/(tube_inner*2); 
 
-    alfa_lbe = k/(density_lbe*c_lbe);
+    alfa_lbe = k_lbe/(density_lbe*c_lbe);
     Pe_lbe = tube_inner*2*velocity_lbe/alfa_lbe;
     %Nu = 4.003 + 0.228*Pe^0.67;
     Nu_lbe = 6 + 0.006*Pe_lbe;
-    h_lbe = k*Nu_lbe/(tube_inner*2); 
+    h_lbe = k_lbe*Nu_lbe/(tube_inner*2); 
 
     %Overall heat transfer coefficient
     thickness=sealer_thick+tube_thick;

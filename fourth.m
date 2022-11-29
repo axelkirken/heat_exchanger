@@ -36,7 +36,7 @@ xlabel("Tube thickness")
 ylabel("Energy")
 
 %% Innerradie varierar
-tube_inner = 0.005:0.001:0.05;
+tube_inner = 0.005:0.003:0.05;
 q = zeros(1,length(tube_inner));
 
 for i=1:length(tube_inner)
