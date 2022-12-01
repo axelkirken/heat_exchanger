@@ -10,15 +10,15 @@ function [Q,T_pb, T_lbe, material] = energy(sealer_outer,flow_pb, L, tube_inner,
     sealer_thick = 0.04; 
     sealer_inner = sealer_outer - sealer_thick;
     sealer_area = pi*(sealer_inner^2-sealer_barrel_radius^2);
-    sealer_temp = 550;
-    sealer_temp_min = 325; %Inital guess
+    sealer_in_temp = 550;
+    sealer_out_temp = 325; %Inital guess
                                                          
 
     %Measurements and temperature, tube
     tube_outer = tube_inner+tube_thick;
     tube_area = pi*tube_inner^2;
-    tube_inlet_temp = 140;
-    tube_max = 520;
+    tube_in_temp = 140;
+    tube_out_temp = 520;
     kt = 20;                              %Heat conduction coefficient 
     Nmax=sealer_outer*pi/tube_outer;      %Maximal number of tubes possible
     N=floor(n*Nmax);                      %Number of tubes           
@@ -31,7 +31,7 @@ function [Q,T_pb, T_lbe, material] = energy(sealer_outer,flow_pb, L, tube_inner,
     k_pb = 17;                            %Thermal conductivity
     k_lbe = 12.7;
     velocity_pb = flow_pb/(density_pb*sealer_area);
-    flow_lbe = c_pb*flow_pb*(sealer_temp-sealer_temp_min)/(c_lbe*(tube_max-tube_inlet_temp));
+    flow_lbe = c_pb*flow_pb*(sealer_in_temp-sealer_out_temp)/(c_lbe*(tube_out_temp-tube_in_temp));
     velocity_lbe = flow_lbe/(density_lbe*N*tube_area);
 
     %Heat transfer coefficients
@@ -51,18 +51,16 @@ function [Q,T_pb, T_lbe, material] = energy(sealer_outer,flow_pb, L, tube_inner,
 
     nsections=100;                  
     dL=L/nsections;
-    T_lbe=linspace(tube_max,tube_inlet_temp, nsections);
+    T_lbe=linspace(tube_out_temp,tube_in_temp, nsections);
     T_lbe_old = zeros(1,nsections);
-    T_pb=linspace(sealer_temp,sealer_temp_min, nsections);
+    T_pb=linspace(sealer_in_temp,sealer_out_temp, nsections);
     T_pb_old = zeros(1,nsections);
     dq = zeros(1, nsections);
     TOL = 0.0001;                                           %Tolerance
  
-    
     while (norm(T_lbe-T_lbe_old)>TOL || norm(T_pb-T_pb_old)>TOL)
         T_lbe_old = T_lbe;
         T_pb_old = T_pb;
-        norm(T_lbe-T_lbe_old)
         for l=1:nsections-1
             DeltaT=T_pb(l)-T_lbe(l);
             dq(l)=N*DeltaT*U*2*tube_outer*dL;
