@@ -11,14 +11,14 @@ function [Q,T_pb, T_lbe, material] = energy(sealer_outer,flow_pb, L, tube_inner,
     sealer_inner = sealer_outer - sealer_thick;
     sealer_area = pi*(sealer_inner^2-sealer_barrel_radius^2);
     sealer_in_temp = 550;
-    sealer_out_temp = 325; %Inital guess
+    sealer_out_temp = 325; %Initial guess
                                                          
 
     %Measurements and temperature, tube
     tube_outer = tube_inner+tube_thick;
     tube_area = pi*tube_inner^2;
     tube_in_temp = 140;
-    tube_out_temp = 520;
+    tube_out_temp = 520;                  %Initial guess
     kt = 20;                              %Heat conduction coefficient 
     Nmax=sealer_outer*pi/tube_outer;      %Maximal number of tubes possible
     N=floor(n*Nmax);                      %Number of tubes           
